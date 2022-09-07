@@ -3,17 +3,30 @@ require('dbconnect.php');
 
 session_start();
 
-if(empty($_SESSION['user_id'])){
+if (empty($_SESSION['user_id'])) {
   header("Location: http://" . $_SERVER['HTTP_HOST'] . "/auth/login/index.php");
   exit();
 }
 
-$today = date("Y-m-d");
-$stmt = $db->query("SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.start_at >= '$today' GROUP BY events.id ORDER BY events.start_at ASC");
-$stmt->execute();
-$events = $stmt->fetchAll();
 
-function get_day_of_week ($w) {
+$_GET["status"];
+$today = date("Y-m-d");
+$user_id = $_SESSION['user_id'];
+if ($_GET["status"]) {
+  $conditions = $_GET["conditions"];
+  $stmt = $db->query("SELECT event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+  $stmt->execute();
+  $events = $stmt->fetchAll();
+} else {
+  $stmt = $db->query("SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.start_at >= '$today' GROUP BY events.id ORDER BY events.start_at ASC");
+  $stmt->execute();
+  $events = $stmt->fetchAll();
+}
+
+
+
+function get_day_of_week($w)
+{
   $day_of_week_list = ['日', '月', '火', '水', '木', '金', '土'];
   return $day_of_week_list["$w"];
 }
@@ -46,17 +59,38 @@ function get_day_of_week ($w) {
 
   <main class="bg-gray-100">
     <div class="w-full mx-auto p-5">
-      <!-- 
       <div id="filter" class="mb-8">
         <h2 class="text-sm font-bold mb-3">フィルター</h2>
         <div class="flex">
-          <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-blue-600 text-white">全て</a>
-          <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">参加</a>
-          <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">不参加</a>
-          <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">未回答</a>
+          <?php
+          if ($_GET["status"]) {
+            echo
+            '
+            <a href="/" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">全て</a>
+            <a href="/?status=conditions" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-blue-600 text-white">参加</a>
+            ';
+          } else {
+            echo
+            '
+            <a href="/" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-blue-600 text-white">全て</a>
+            <a href="/?status=conditions" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">参加</a>
+            ';
+          }
+          // echo
+          //   '<a href="/" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md';
+          //   if($_GET["status"]){echo 'bg-white';}else{echo 'bg-blue-600 text-white';} ;
+          // echo'">全て</a>
+          //   <a href="/?status=conditions" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md';
+          //   if($_GET["status"]){echo 'bg-blue-600 text-white';}else{echo 'bg-white';} ;
+          // echo'">参加</a>
+          //   ';
+
+          ?>
+          <!-- <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">不参加</a> -->
+          <!-- <a href="" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">未回答</a> -->
         </div>
       </div>
-      -->
+
       <div id="events-list">
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-sm font-bold">一覧</h2>
