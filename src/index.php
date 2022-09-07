@@ -14,7 +14,7 @@ $_GET["status"];
 $today = date("Y-m-d");
 $user_id = $_SESSION['user_id'];
 if (!$_GET["status"]) {
-  $stmt = $db->query("SELECT events.id as eventId, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.start_at >= '$today' GROUP BY events.id ORDER BY events.start_at ASC");
+  $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at,events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE  events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
   $stmt->execute();
   $events = $stmt->fetchAll();
 } elseif($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
@@ -31,7 +31,9 @@ if (!$_GET["status"]) {
         $stmt->execute();
         $events = $stmt->fetchAll();
       };
+      
 }
+
 
 function get_day_of_week($w)
 {
@@ -133,20 +135,52 @@ function get_day_of_week($w)
             </div>
             <div class="flex flex-col justify-between text-right">
               <div>
-                <?php if ($event['id'] % 3 === 1) : ?>
-                  <!--
+              <?php
+              if(!$_GET["status"] ){
+                if($event["participate"] == 1){
+                  echo
+                  '
                   <p class="text-sm font-bold text-yellow-400">未回答</p>
-                  <p class="text-xs text-yellow-400">期限 <?php echo date("m月d日", strtotime('-3 day', $end_date)); ?></p>
-                  -->
-                <?php elseif ($event['id'] % 3 === 2) : ?>
-                  <!-- 
+                  <p class="text-xs text-yellow-400">期限 ';
+              ?>
+                  <?php echo date("m月d日", strtotime('-3 day', $end_date)) ;
+                  echo '</p>';
+                
+                }elseif($event["nonparticipate"] == 1){
+                  echo
+                  '
                   <p class="text-sm font-bold text-gray-300">不参加</p>
-                  -->
-                <?php else : ?>
-                  <!-- 
+                  ';
+                }elseif($event["par"] == 1){
+                  echo
+                  '
                   <p class="text-sm font-bold text-green-400">参加</p>
-                  -->
-                <?php endif; ?>
+                  ';
+                };
+              }elseif($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3){
+                if($_GET["status"] == 3){
+                  echo
+                  '
+                  <p class="text-sm font-bold text-yellow-400">未回答</p>
+                  <p class="text-xs text-yellow-400">期限 ';
+              ?>
+                  <?php echo date("m月d日", strtotime('-3 day', $end_date)) ;
+                  echo '</p>';
+                
+                }elseif($_GET["status"] == 2){
+                  echo
+                  '
+                  <p class="text-sm font-bold text-gray-300">不参加</p>
+                  ';
+                }elseif($_GET["status"] == 1){
+                  echo
+                  '
+                  <p class="text-sm font-bold text-green-400">参加</p>
+                  ';
+                };
+              }
+
+?>
               </div>
               <p class="text-sm"><span class="text-xl"><?php echo $event['total_participants']; ?></span>人参加 ></p>
             </div>
