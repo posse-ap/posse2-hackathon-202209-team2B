@@ -26,3 +26,4 @@ echo "メールを送信しました";
 
 $condition = 'participation';
 var_dump(getUserByAttendanceStatus($db, $condition));
+var_dump(getUserByAttendanceStatus($db, 'notsubmitted'));
