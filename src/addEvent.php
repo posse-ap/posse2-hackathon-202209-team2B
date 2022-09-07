@@ -11,6 +11,8 @@ require('./models/events.php');
     $deadline = $_POST['deadline'];
     $dead = strtotime($deadline);
     $detail = $_POST['detail'];
+    if(strlen($name) < 255){
+    if(strlen($detail) < 255){
     if($finish >= $start){
       if($start >= $dead){
       eventCreate($db, $name, $startedTime, $finishedTime, $deadline, $detail); 
@@ -21,6 +23,12 @@ require('./models/events.php');
     }else{
       $err_msg = "開始時刻を終了時刻より前にしてください。";
     }
+    }else{
+      $err_msg = "詳細は255文字以内で記載してください。";
+    }
+  }else{
+      $err_msg = "イベント名は255文字以内で記載してください。";
+  }
   }
 ?>
 <!-- <body class="bg-gray-100 h-screen w-screen"> -->
@@ -47,9 +55,11 @@ require('./models/events.php');
       <p class="mt-3 text-left ml-12 mb-2">イベント詳細</p>
       <textarea name="detail" rows="10" cols="60" class="w-3/4 h-20 p-4 text-sm mb-3 rounded-lg"></textarea>
     <div class="flex justify-center">
-      <div class="mt-3 text-center w-3/4 h-10 bg-gradient-to-r from-blue-500 to-blue-200 rounded-full">
-        <button type="submit" class="text-white font-bold leading-10">追加</button>
-      </div>
+    <button type="submit" class="text-white font-bold leading-10 mt-3 text-center w-4/5 h-10 bg-gradient-to-r from-blue-500 to-blue-200 rounded-full">
+      <!-- <div class="mt-3 text-center w-100 h-10 bg-gradient-to-r from-blue-500 to-blue-200 rounded-full"> -->
+        追加
+      <!-- </div> -->
+    </button>
     </div>
   </form>
   </main>
