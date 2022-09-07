@@ -79,9 +79,9 @@ require(realpath("header.php"));
     }
       ?>
       <div class="flex justify-center">
-        <div class="mt-3 text-center w-3/4 h-10 bg-gradient-to-r from-blue-500 to-blue-200 rounded-full">
-          <input type="submit" class="text-white font-bold leading-10" value="サインアップ">
-        </div>
+        <label for="sign_up" class="mt-3 text-center w-3/4 h-10 bg-gradient-to-r from-blue-500 to-blue-200 rounded-full">
+          <input id="sign_up" type="submit" class="bg-transparent text-white font-bold leading-10" value="サインアップ">
+        </label>
       </div>
     </form>
   </div>
