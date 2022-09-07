@@ -43,6 +43,16 @@ CREATE TABLE event_attendance (
   deleted_at DATETIME
 );
 
+DROP TABLE IF EXISTS userpassreset;
+
+CREATE TABLE `userpassreset` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `token` TEXT NOT NULL,
+  `mail` TEXT NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 INSERT INTO
     `events` (
         `name`,
