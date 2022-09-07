@@ -10,13 +10,12 @@ if(!empty($_POST)) {
   $email = $_POST['email'];
   $password = $_POST['password'];
   if(!empty($email) && !empty($password)){
-  $login = $db->prepare('SELECT * FROM users WHERE email=? AND password=?');
+  $login = $db->prepare('SELECT * FROM users WHERE email=?');
   $login->execute(array(
-    $_POST['email'],
-    $_POST['password']
+    $email
   ));
   $user = $login->fetch();
-  if($user){
+  if(password_verify($password, $user['password'])){
     $_SESSION['user_id'] = $user['id']; 
     header("Location: http://" . $_SERVER['HTTP_HOST'] . "/index.php");
     exit();
