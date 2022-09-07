@@ -23,8 +23,7 @@ require('./models/events.php');
     }
   }
 ?>
-<?php include('head.php')?>
-<body class="bg-gray-100 h-screen w-screen">
+<!-- <body class="bg-gray-100 h-screen w-screen"> -->
 <?php include('header.php')?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -68,4 +67,5 @@ require('./models/events.php');
               var dead_calender = document.getElementById("end_submit");
               var fd = flatpickr(dead_calender, config);
               </script>
-</body>
+
+<?php include('footer.php') ?>

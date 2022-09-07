@@ -29,7 +29,7 @@ function eventCreate($db, $name, $start_at, $end_at, $deadline, $detail)
         $stmt->bindValue(2, $start_at, PDO::PARAM_STR);
         $stmt->bindValue(3, $end_at, PDO::PARAM_STR);
         $stmt->bindValue(4, $deadline, PDO::PARAM_STR);
-        $stmt->bindValue(5, $detail, PDO::PARAM_INT);
+        $stmt->bindValue(5, $detail, PDO::PARAM_STR);
         $stmt->execute();
     } catch (\Exception $e) {
         echo $e->getMessage();
