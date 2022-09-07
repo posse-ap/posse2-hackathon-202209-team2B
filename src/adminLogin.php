@@ -48,7 +48,7 @@ if(!empty($_POST)) {
   </header>
   <main class="bg-gray-100 h-screen">
   <div class="w-full mx-auto p-5">
-    <div class="font-bold text-base mt-4 mb-3">ログイン</div>
+    <div class="font-bold text-base mt-4 mb-3">管理者用ログイン</div>
     <form action="/adminLogin.php" method="POST">
     <input type="email" name="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3 ">
         <input type="password" name="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3">
