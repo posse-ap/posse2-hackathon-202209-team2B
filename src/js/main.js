@@ -18,7 +18,7 @@ for (var i = 0; i < closeModalClassList.length; i++) {
   closeModalClassList[i].addEventListener('click', closeModal)
 }
 
-overlay.addEventListener('click', closeModal)
+// overlay.addEventListener('click', closeModal)
 
 
 async function openModal(eventId) {
@@ -52,7 +52,7 @@ async function openModal(eventId) {
           </div>
           <div class="flex mt-5">
             <button class="flex-1 bg-blue-500 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})">参加する</button>
-            <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold">参加しない</button>
+            <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="nonparticipateEvent(${eventId})">参加しない</button>
           </div>
         `
         break;
@@ -92,7 +92,7 @@ function toggleModal() {
 async function participateEvent(eventId) {
   try {
     let formData = new FormData();
-    formData.append('eventId', eventId)
+    formData.append('eventId_0', eventId)
     const url = '/api/postEventAttendance.php'
     await fetch(url, {
       method: 'POST',
@@ -109,4 +109,28 @@ async function participateEvent(eventId) {
     console.log(error)
   }
 }
+
+async function nonparticipateEvent(eventId) {
+  try {
+    let formData = new FormData();
+    formData.append('eventId_1', eventId)
+    const url = '/api/postEventAttendance.php'
+    await fetch(url, {
+      method: 'POST',
+      body: formData
+    }).then((res) => {
+      if(res.status !== 200) {
+        throw new Error("system error");
+      }
+      return res.text();
+    })
+    closeModal()
+    location.reload()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
 
