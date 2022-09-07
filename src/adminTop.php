@@ -11,7 +11,6 @@ function get_day_of_week ($w) {
   return $day_of_week_list["$w"];
 }
 ?>
-
 <?php include('head.php');?>
 
 <body>
