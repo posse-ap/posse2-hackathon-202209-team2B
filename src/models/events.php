@@ -7,3 +7,4 @@ function eventRead($db)
     $output = $stmt->fetchAll();
     return $output;
 }
+

@@ -26,6 +26,11 @@ async function openModal(eventId) {
     const url = '/api/getModalInfo.php?eventId=' + eventId
     const res = await fetch(url)
     const event = await res.json()
+    console.log(event.eventStatus[0])
+    let participation = event.eventStatus[0].participation;
+    let nonparticipation = event.eventStatus[0].nonparticipation;
+    let notsubmitted = event.eventStatus[0].notsubmitted;
+
     let modalHTML = `
       <h2 class="text-md font-bold mb-3">${event.name}</h2>
       <p class="text-sm">${event.date}（${event.day_of_week}）</p>
@@ -50,11 +55,22 @@ async function openModal(eventId) {
             <p class="text-xs text-yellow-400">期限 ${event.deadline}</p>
             -->
           </div>
-          <div class="flex mt-5">
-            <button class="flex-1 bg-blue-500 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})">参加する</button>
-            <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="nonparticipateEvent(${eventId})">参加しない</button>
-          </div>
         `
+        if (participation == 1) {
+          modalHTML += `<div class="flex mt-5">
+        <button class="flex-1 bg-blue-500 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})" disabled>参加する</button>
+        <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="nonparticipateEvent(${eventId})">参加しない</button>
+      </div>`
+      }else if( nonparticipation == 1){
+        modalHTML += `<div class="flex mt-5">
+        <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})">参加する</button>
+        <button class="flex-1 bg-blue-500 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="nonparticipateEvent(${eventId})" disabled>参加しない</button>
+      </div>`
+      }else{ modalHTML += `<div class="flex mt-5">
+      <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="participateEvent(${eventId})">参加する</button>
+      <button class="flex-1 bg-gray-300 py-2 mx-3 rounded-3xl text-white text-lg font-bold" onclick="nonparticipateEvent(${eventId})">参加しない</button>
+    </div>`}
+
         break;
       case 1:
         modalHTML += `
@@ -98,7 +114,7 @@ async function participateEvent(eventId) {
       method: 'POST',
       body: formData
     }).then((res) => {
-      if(res.status !== 200) {
+      if (res.status !== 200) {
         throw new Error("system error");
       }
       return res.text();
@@ -119,7 +135,7 @@ async function nonparticipateEvent(eventId) {
       method: 'POST',
       body: formData
     }).then((res) => {
-      if(res.status !== 200) {
+      if (res.status !== 200) {
         throw new Error("system error");
       }
       return res.text();
@@ -131,6 +147,15 @@ async function nonparticipateEvent(eventId) {
   }
 }
 
+// let generations = [];
+// let objectGenerations = $('#jsGetVariable').data();
+
+// console.log(objectGenerations)
+// objectGenerations['name'].map(function(element) {
+//     const generation = Math.floor(element.generation)
+//     generations.push(generation);
+// });
+// generations = new Set(generations);
 
 
 
