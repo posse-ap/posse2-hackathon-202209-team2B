@@ -1,5 +1,6 @@
 <?php
 require('dbconnect.php');
+require('./models/event_attendance.php');
 
 session_start();
 
@@ -13,7 +14,7 @@ $_GET["status"];
 $today = date("Y-m-d");
 $user_id = $_SESSION['user_id'];
 if (!$_GET["status"]) {
-  $stmt = $db->query("SELECT events.id, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.start_at >= '$today' GROUP BY events.id ORDER BY events.start_at ASC");
+  $stmt = $db->query("SELECT events.id as eventId, events.name, events.start_at, events.end_at, count(event_attendance.id) AS total_participants FROM events LEFT JOIN event_attendance ON events.id = event_attendance.event_id WHERE events.start_at >= '$today' GROUP BY events.id ORDER BY events.start_at ASC");
   $stmt->execute();
   $events = $stmt->fetchAll();
 } elseif($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
@@ -31,8 +32,6 @@ if (!$_GET["status"]) {
         $events = $stmt->fetchAll();
       };
 }
-
-
 
 function get_day_of_week($w)
 {
@@ -123,7 +122,8 @@ function get_day_of_week($w)
           $end_date = strtotime($event['end_at']);
           $day_of_week = get_day_of_week(date("w", $start_date));
           ?>
-          <div class="modal-open bg-white mb-3 p-4 flex justify-between rounded-md shadow-md cursor-pointer" id="event-<?php echo $event['eventId']; ?>">
+          <form class="modal-open bg-white mb-3 p-4 flex justify-between rounded-md shadow-md cursor-pointer" id="event-<?= $event['eventId']; ?>">
+          <input type="hidden" name="eventId" value="<?= $event['name'] ?>">
             <div>
               <h3 class="font-bold text-lg mb-2"><?php echo $event['name'] ?></h3>
               <p><?php echo date("Y年m月d日（${day_of_week}）", $start_date); ?></p>
@@ -150,7 +150,7 @@ function get_day_of_week($w)
               </div>
               <p class="text-sm"><span class="text-xl"><?php echo $event['total_participants']; ?></span>人参加 ></p>
             </div>
-          </div>
+          </form>
         <?php endforeach; ?>
       </div>
     </div>

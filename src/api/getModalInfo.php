@@ -1,6 +1,10 @@
 <?php
 require('../dbconnect.php');
+require('../models/event_attendance.php');
 header('Content-Type: application/json; charset=UTF-8');
+
+session_start();
+$user_id = $_SESSION['user_id'];
 
 if (isset($_GET['eventId'])) {
   $eventId = htmlspecialchars($_GET['eventId']);
@@ -11,6 +15,12 @@ if (isset($_GET['eventId'])) {
     
     $start_date = strtotime($event['start_at']);
     $end_date = strtotime($event['end_at']);
+
+    $eventStatus = getEventStatus($db, (int)$_GET['eventId'], (int)$user_id);
+
+    $participation = $eventStatus['participation'];
+    $nonparticipation = $eventStatus['nonparticipation'];
+    $notsubmitted = $eventStatus['notsubmitted'];
 
     $eventMessage = date("Y年m月d日", $start_date) . '（' . get_day_of_week(date("w", $start_date)) . '） ' . date("H:i", $start_date) . '~' . date("H:i", $end_date) . 'に' . $event['name'] . 'を開催します。<br>ぜひ参加してください。';
 
@@ -29,6 +39,7 @@ if (isset($_GET['eventId'])) {
       'message' => $eventMessage,
       'status' => $status,
       'deadline' => date("m月d日", strtotime('-3 day', $end_date)),
+      'eventStatus' => $eventStatus,
     ];
     
     echo json_encode($array, JSON_UNESCAPED_UNICODE);
