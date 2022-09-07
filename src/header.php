@@ -1,4 +1,4 @@
-<header class="bg-white-100 h-16 flex justify-between">
+<header class="header" >
     <div class="flex justify-between items-center w-full h-full mx-auto pl-2 pr-5">
       <div class="h-full">
         <img src="/img/header-logo.png" alt="" class="h-full">

@@ -1,3 +1,10 @@
+header{
+  background-color: white !important;
+  height: 64px; 
+  display: flex; 
+  justify-content: space-between;
+}
+
 .menu {
   margin-top: 1%;
   left: 20px;

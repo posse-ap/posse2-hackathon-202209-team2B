@@ -1,5 +1,5 @@
 <?php include('head.php')?>
-<body>
+<body class="bg-gray-100 h-screen w-screen">
 <?php include('header.php')?>
   <main class="bg-gray-100 flex justify-center h-screen w-screen">
   <div class="w-full text-center">
