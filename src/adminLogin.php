@@ -1,3 +1,6 @@
+<?php
+require("dbconnect.php");
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -33,3 +36,4 @@
 
   </footer>
 </body>
+</html>
