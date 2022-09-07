@@ -9,7 +9,7 @@ $body = "本文";
 $headers = ["From"=>"system@posse-ap.com", "Content-Type"=>"text/plain; charset=UTF-8", "Content-Transfer-Encoding"=>"8bit"];
 
 $name = "テスト";
-$date = "2021年08月01日（日） 21:00~23:00";
+$date = "2022年08月01日（日） 21:00~23:00";
 $event = "縦モク";
 $body = <<<EOT
 {$name}さん
