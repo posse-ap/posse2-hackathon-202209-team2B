@@ -6,35 +6,6 @@ session_start();
 
 unset($_SESSION['user_id']);
 
-if (!empty($_POST)) {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-  if(isset($email) && isset($password)){
-    // eメールアドレスバリデーションチェック
-    // 空白チェック
-    if ($email === '') {
-      $err_msg['email'] = 'メールアドレスは入力必須です';
-    }
-    // 文字数チェック
-    elseif (strlen($email) > 255) {
-      $err_msg['email'] = 'メールアドレスは255文字で入力してください';
-    }
-    // パスワードバリデーションチェック
-    // 空白チェック
-    elseif ($password === '') {
-      $err_msg['password'] = 'パスワードを入力してください';
-    }
-    // 文字数チェック
-    elseif (strlen($password) > 255 || strlen($password) < 5) {
-      $err_msg['password'] = 'パスワードは６文字以上２５５文字以内で入力してください';
-    }
-    // 形式チェック
-    elseif (!preg_match("/^[a-zA-Z0-9]+$/", $password)) {
-      $err_msg['password'] = 'パスワードは半角英数字で入力してください';
-    }
-  }
-}
-
 if(!empty($_POST)) {
   $email = $_POST['email'];
   $password = $_POST['password'];
@@ -45,10 +16,12 @@ if(!empty($_POST)) {
     $_POST['password']
   ));
   $user = $login->fetch();
-  if($user && empty($err_msg)){
+  if($user){
     $_SESSION['user_id'] = $user['id']; 
     header("Location: http://" . $_SERVER['HTTP_HOST'] . "/index.php");
     exit();
+  }else{
+    $err_msg = "メールまたはパスワードが違います";
   }
 }
 }
@@ -79,16 +52,9 @@ if(!empty($_POST)) {
       <h2 class="text-md font-bold mb-5">ログイン</h2>
       <form action="/auth/login/index.php" method="POST">
         <input type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3" name="email">
-        <?php 
-        if(!empty($err_msg)){
-          echo $err_msg['email'];
-        }
-        ?>
         <input type="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3" name="password">
         <?php 
-        if(!empty($err_msg)){
-          echo $err_msg['password'];
-        }
+        echo $err_msg;
         ?>
         <!-- <label class="inline-block mb-6">
           <input type="checkbox" checked>
