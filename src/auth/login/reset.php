@@ -30,7 +30,7 @@
         // header('Location: http://' . $_SERVER['HTTP_HOST'] . '/client/login.php');
         }else{
             $error['change'] = 'no_match';
-            echo '確認用と一致しませんでした';
+            // echo '確認用と一致しませんでした';
         }
     }
     }
@@ -40,22 +40,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="login.css">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./login.css">
+    <title>Schedule | POSSE</title>
 </head>
 
 <body>
-    <h1 class="reset_sentence">パスワード変更画面です</h1>
-    <section class="login">
+    <header class="bg-white h-16">
+        <div class="items-center w-full h-full mx-auto pl-2 pr-5">
+            <div class="h-full">
+                <img src="/img/header-logo.png" alt="" class="h-full w-1/2">
+            </div>
+        </div>
+    </header>
+    <main class="bg-gray-100 h-screen w-screen">
+        <div class="text-center pt-10">
+        <h1><span class="changing">パスワード変更画面です</span></h1>
+    <section class="w-full">
         <form action="../login/reset.php" method="POST" class="login-container">
-            <p>新しいパスワード</p>
-            <p><input type="password" name="new" placeholder="Password" required></p>
-            <p>新しいパスワード(確認)</p>
-            <p><input type="password" name="new_check" placeholder="Password" required></p>
+            <p class="pt-3 text-lg font-bold pb-3">新しいパスワード</p>
+            <p><input type="password" name="new" placeholder="Password" class="h-16 w-4/5 rounded-md p-3 mb-4" required></p>
+            <p class="pt-3 text-lg font-bold pb-3">新しいパスワード(確認)</p>
+            <p><input type="password" name="new_check" placeholder="Password" class="h-16 w-4/5 rounded-md p-3 mb-4" required></p>
             <?php if (isset($error['change']) && $error['change'] === 'no_match') : ?>
                 <span>確認用と一致しませんでした</span>
             <?php endif; ?>
@@ -68,9 +77,11 @@
             <?php if (isset($error['change']) && $error['change'] === 'nothing') : ?>
                 <span>パスワードが変更されました、再ログインしてください</span>
             <?php endif; ?>
-            <p><a href="index.php">ログイン画面はこちら</a></p>
+            <p class="pt-3"><a href="index.php" class="login-page">ログイン画面はこちら</a></p>
         </form>
     </section>
+    </main>
+        </div>
 </body>
 
 </html>

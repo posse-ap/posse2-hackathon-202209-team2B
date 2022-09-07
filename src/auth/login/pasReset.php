@@ -75,25 +75,32 @@ if (isset($_GET['token'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="login.css">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./login.css">
+    <title>Schedule | POSSE</title>
 </head>
 
 <body>
-    <header>
+    <header class="bg-white h-16">
+        <div class="items-center w-full h-full mx-auto pl-2 pr-5">
+            <div class="h-full">
+                <img src="/img/header-logo.png" alt="" class="h-full w-1/2">
+            </div>
+        </div>
     </header>
-    <h1 class="reset_sentence2">パスワードの再設定が必要です</h1><br>
-    <p class="reset_sentence3">
-        恐れ入りますが、登録されたメールアドレスをご入力いただき、<br><br>
+    <main class="bg-gray-100 h-screen w-screen">
+        <div class="text-center pt-10">
+        <h1 ><span class="advice">パスワードの再設定が必要です</span></h1><br>
+    <p class="text-md">
+        恐れ入りますが、<span class="address">登録されたメールアドレス</span>をご入力いただき、<br><br>
         受信されたメールの案内にしたがってパスワードの再設定をお願いします。
     </p>
 
-    <section class="login">
-        <form action="pasReset.php" method="POST" class="login-container">
-            <p>登録しているメールアドレス</p>
-            <p><input type="mail" name="mail" placeholder="mail" required></p>
-            <input type="submit" value="確定">
+    <section class="w-full">
+        <form action="pasReset.php" method="POST" class="w-screen h-screen">
+            <p class="pt-10 text-sm pb-3">登録しているメールアドレス</p>
+            <p><input type="mail" name="mail" placeholder="mail" class="h-16 w-4/5 rounded-md p-3 mb-4" required></p>
+                <input type="submit" value="確定">
         </form>
     </section>
     <?php if ($ret) : ?>
@@ -102,6 +109,8 @@ if (isset($_GET['token'])) {
             確認した後、パスワードの再設定をお願いします。
         <?php endif; ?>
         </p>
+        </div>
+    </main>
 </body>
 
 </html>
