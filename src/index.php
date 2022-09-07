@@ -137,7 +137,7 @@ function get_day_of_week($w)
               <div>
               <?php
               if(!$_GET["status"] ){
-                if($event["participate"] == 1){
+                if($event["notsubmitted"] == 1){
                   echo
                   '
                   <p class="text-sm font-bold text-yellow-400">未回答</p>
@@ -146,12 +146,12 @@ function get_day_of_week($w)
                   <?php echo date("m月d日", strtotime('-3 day', $end_date)) ;
                   echo '</p>';
                 
-                }elseif($event["nonparticipate"] == 1){
+                }elseif($event["nonparticipation"] == 1){
                   echo
                   '
                   <p class="text-sm font-bold text-gray-300">不参加</p>
                   ';
-                }elseif($event["par"] == 1){
+                }elseif($event["participation"] == 1){
                   echo
                   '
                   <p class="text-sm font-bold text-green-400">参加</p>
