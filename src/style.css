@@ -293,8 +293,7 @@ main footer .secondary-links .social li > a:hover {
   display: flex;
   justify-content: center;
   padding:-5% 15%;
-
-  margin: 0px auto;
+  margin: 15px auto;
   width: 85%;
   height: 25%;
   line-height: 30px;
