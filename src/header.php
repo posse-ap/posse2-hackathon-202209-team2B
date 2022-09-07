@@ -18,7 +18,8 @@
     <li class="last-sentense"><a href="addMember.php">ユーザー追加</a></li>
   </ul>
   <div class="touser">
-    <a href="../auth/login/index.php">ユーザ画面へ</a><br><br><br>
+    <a href="../auth/login/index.php">ユーザ画面へ</a><br><br>
+    <a href="../auth/login/index.php">ログアウト</a>
   </div>
 </nav>
   </header>
