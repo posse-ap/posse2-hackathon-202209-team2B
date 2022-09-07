@@ -164,7 +164,7 @@ function get_day_of_week($w)
                   <p class="text-sm font-bold text-yellow-400">未回答</p>
                   <p class="text-xs text-yellow-400">期限 ';
               ?>
-                  <?php echo date("m月d日", strtotime('-3 day', $end_date)) ;
+                  <?php echo date("m月d日",  $end_date) ;
                   echo '</p>';
                 
                 }elseif($_GET["status"] == 2){
