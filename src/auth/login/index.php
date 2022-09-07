@@ -1,3 +1,30 @@
+<?php
+require("../../dbconnect.php");
+
+session_name();
+session_start();
+
+unset($_SESSION['user_id']);
+
+if(!empty($_POST)) {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  if(!empty($email) && !empty($password)){
+  $login = $db->prepare('SELECT * FROM users WHERE email=? AND password=?');
+  $login->execute(array(
+    $_POST['email'],
+    $_POST['password']
+  ));
+  $user = $login->fetch();
+  if($user){
+    $_SESSION['user_id'] = $user['id']; 
+    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/index.php");
+    exit();
+  }
+}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -21,13 +48,13 @@
   <main class="bg-gray-100 h-screen">
     <div class="w-full mx-auto py-10 px-5">
       <h2 class="text-md font-bold mb-5">ログイン</h2>
-      <form action="/" method="POST">
-        <input type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3">
-        <input type="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3">
-        <label class="inline-block mb-6">
+      <form action="/auth/login/index.php" method="POST">
+        <input type="email" placeholder="メールアドレス" class="w-full p-4 text-sm mb-3" name="email">
+        <input type="password" placeholder="パスワード" class="w-full p-4 text-sm mb-3" name="password">
+        <!-- <label class="inline-block mb-6">
           <input type="checkbox" checked>
           <span class="text-sm">ログイン状態を保持する</span>
-        </label>
+        </label> -->
         <input type="submit" value="ログイン" class="cursor-pointer w-full p-3 text-md text-white bg-blue-400 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-300">
       </form>
       <div class="text-center text-xs text-gray-400 mt-6">
