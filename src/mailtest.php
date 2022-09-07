@@ -1,5 +1,6 @@
 <?php
-
+require("dbconnect.php");
+require(realpath("models/event_attendance.php"));
 mb_language('ja');
 mb_internal_encoding('UTF-8');
 
@@ -22,3 +23,6 @@ EOT;
 
 mb_send_mail($to, $subject, $body, $headers);
 echo "メールを送信しました";
+
+$condition = 'participation';
+var_dump(getUserByAttendanceStatus($db, $condition));
