@@ -18,7 +18,7 @@ for (var i = 0; i < closeModalClassList.length; i++) {
   closeModalClassList[i].addEventListener('click', closeModal)
 }
 
-overlay.addEventListener('click', closeModal)
+// overlay.addEventListener('click', closeModal)
 
 
 async function openModal(eventId) {
@@ -111,4 +111,6 @@ async function participateEvent(eventId) {
     console.log(error)
   }
 }
+
+
 
