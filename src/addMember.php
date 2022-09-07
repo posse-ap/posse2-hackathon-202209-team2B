@@ -1,13 +1,48 @@
 <?php
 require("dbconnect.php");
 require(realpath("models/users.php"));
-if ($_POST) {
+
+if($_POST){
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+if(isset($email) && isset($password)){
+  // eメールアドレスバリデーションチェック
+  // 空白チェック
+  if ($email === '') {
+    $err_msg['email'] = '入力必須です';
+  }
+  // 文字数チェック
+  elseif (strlen($email) > 255) {
+    $err_msg['email'] = '255文字で入力してください';
+  }
+  // パスワードバリデーションチェック
+  // 空白チェック
+  elseif ($password === '') {
+    $err_msg['password'] = '入力してください';
+  }
+  // 文字数チェック
+  elseif (strlen($password) > 255 || strlen($password) < 5) {
+    $err_msg['password'] = '６文字以上２５５文字以内で入力してください';
+  }
+  // 形式チェック
+  elseif (!preg_match("/^[a-zA-Z0-9]+$/", $password)) {
+    $err_msg['password'] = '半角英数字で入力してください';
+  }
+}
+}
+
+
+if ($_POST && empty($err_msg)) {
+  if($_POST['password'] == $_POST['confirm']){
   $name = $_POST['name'];
   $email = $_POST['email'];
   $password = $_POST['password'];
   $admin = $_POST['admin'];
   userCreate($db, $name, $email, $password, $admin);
   header('Location: adminTop.php');
+  }else{
+    $err_msg['password'] = "パスワードが一致していません";
+  }
 }
 require(realpath("header.php"));
 
@@ -36,6 +71,13 @@ require(realpath("header.php"));
           ユーザー</label>
         <!-- <span class="ECM_CheckboxInput-DummyInput"></span><span class="ECM_CheckboxInput-LabelText">私は管理者です</span></label> -->
       </div>
+      <?php 
+      if(!empty($err_msg)){
+      foreach($err_msg as $err){
+        echo $err;
+      }
+    }
+      ?>
       <div class="flex justify-center">
         <div class="mt-3 text-center w-3/4 h-10 bg-gradient-to-r from-blue-500 to-blue-200 rounded-full">
           <input type="submit" class="text-white font-bold leading-10" value="サインアップ">

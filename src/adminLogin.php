@@ -36,3 +36,4 @@ require("dbconnect.php");
 
   </footer>
 </body>
+</html>
