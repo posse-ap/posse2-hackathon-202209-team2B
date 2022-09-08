@@ -18,6 +18,10 @@ if (isset($_GET['eventId'])) {
 
     $eventStatus = getEventStatus($db, (int)$_GET['eventId'], (int)$user_id);
 
+    // $attendanceUser = getUserByAttendanceStatus($db, $condition);
+
+    $attendanceUserByEvent = getUserByAttendanceStatusByEvent($db, $eventId);
+
     $participation = $eventStatus['participation'];
     $nonparticipation = $eventStatus['nonparticipation'];
     $notsubmitted = $eventStatus['notsubmitted'];
@@ -40,6 +44,7 @@ if (isset($_GET['eventId'])) {
       'status' => $status,
       'deadline' => date("m月d日", strtotime('-3 day', $end_date)),
       'eventStatus' => $eventStatus,
+      'attendanceUser' => $attendanceUserByEvent
     ];
     
     echo json_encode($array, JSON_UNESCAPED_UNICODE);
