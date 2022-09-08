@@ -40,7 +40,8 @@ if ($_POST && empty($err_msg)) {
   $email = $_POST['email'];
   $password = $_POST['password'];
   $admin = $_POST['admin'];
-  $lastInsertUserId = userCreate($db, $name, $email, $password, $admin); 
+  $lastInsertUserId = userCreate($db, $name, $email, $password, $admin);
+
 
       $allEvents = eventRead($db);
       foreach($allEvents as $event){

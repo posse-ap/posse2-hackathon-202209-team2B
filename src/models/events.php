@@ -2,7 +2,7 @@
 // 過去のイベントのみを表示させる
 function eventRead($db)
 {
-    $stmt = $db->prepare("select * from users");
+    $stmt = $db->prepare("select * from events");
     $stmt->execute();
     $output = $stmt->fetchAll();
     return $output;
