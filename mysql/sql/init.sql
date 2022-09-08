@@ -35,9 +35,9 @@ CREATE TABLE event_attendance (
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   event_id INT NOT NULL,
   user_id INT NOT NULL,
-  participation INT NOT NULL,
-  nonparticipation INT NOT NULL,
-  notsubmitted INT NOT NULL,
+  participation INT NOT NULL DEFAULT 0,
+  nonparticipation INT NOT NULL DEFAULT 0,
+  notsubmitted INT NOT NULL DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted_at DATETIME

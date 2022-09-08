@@ -36,19 +36,8 @@
   cursor: pointer;
 }
 
-.accordion-title{}
-
 .accordion-title:after {
   content: "";
-  /* position: absolute;
-  right: 25px;
-  top: 38%;
-  transition: all 0.2s ease-in-out;
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-top: solid 2px #fff;
-  border-right: solid 2px #fff; */
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
@@ -60,13 +49,10 @@
 
 .accordion-content {
   display: none;
-  /* padding-left: 2.3125em; */
 }
 
 /* CSS for CodePen */
 .accordion-container {
-  /* width: 300px;
-  margin: 1.875em auto; */
   position: relative;
   left: 77%;
   bottom: 50px;

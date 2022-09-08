@@ -25,3 +25,21 @@ function getUserByAttendanceStatusByEvent($db, $eventId)
     $output = $stmt->fetchAll();
     return $output;
 }
+
+// イベント登録時のデフォルト入力
+function createEventAttendance($db, $eventId, $userId)
+{
+    $stmt = $db->prepare(
+        'INSERT INTO 
+`event_attendance` (
+    `event_id`,
+    `user_id`
+) 
+VALUES
+(?,?)
+'
+    );
+    $stmt->bindValue(1, $eventId, PDO::PARAM_INT);
+    $stmt->bindValue(2, $userId, PDO::PARAM_INT);
+    $stmt->execute();
+}

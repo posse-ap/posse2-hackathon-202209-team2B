@@ -24,7 +24,9 @@ if (!$_GET["status"]) {
   $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at,events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE  events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
   $stmt->execute();
   $events = $stmt->fetchAll();
-  $count = count($events);
+  $stmt = $db->query("SELECT * FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE  events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+  $counter = $stmt->fetchAll();
+  $count = count($counter);
 
   //一ページに表示する記事の数をmax_viewに定数として定義
 define('max_view',10);
@@ -37,7 +39,9 @@ $max_page = ceil($count/max_view);
     $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
     $events = $stmt->fetchAll();
-    $count = count($events);
+    $stmt = $db->query("SELECT *  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC ");
+    $counter = $stmt->fetchAll();
+    $count = count($counter);
 
     //一ページに表示する記事の数をmax_viewに定数として定義
   define('max_view',10);
@@ -47,7 +51,9 @@ $max_page = ceil($count/max_view);
     $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
     $events = $stmt->fetchAll();
-    $count = count($events);
+    $stmt = $db->query("SELECT * FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $counter = $stmt->fetchAll();
+    $count = count($counter);
 
     //一ページに表示する記事の数をmax_viewに定数として定義
   define('max_view',10);
@@ -57,7 +63,9 @@ $max_page = ceil($count/max_view);
     $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
     $events = $stmt->fetchAll();
-    $count = count($events);
+    $stmt = $db->query("SELECT * FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $counter = $stmt->fetchAll();
+    $count = count($counter);
 
     //一ページに表示する記事の数をmax_viewに定数として定義
   define('max_view',10);

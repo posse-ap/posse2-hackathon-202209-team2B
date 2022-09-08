@@ -1,6 +1,8 @@
 <?php
 require('dbconnect.php');
 require('./models/events.php');
+require('./models/users.php');
+require('./models/event_attendance.php');
   if ($_POST) {
     //その他の取得
     $name = $_POST['name'];
@@ -15,7 +17,14 @@ require('./models/events.php');
     if(strlen($detail) < 255){
     if($finish >= $start){
       if($start >= $dead){
-      eventCreate($db, $name, $startedTime, $finishedTime, $deadline, $detail); 
+      $lastInsertEventId = eventCreate($db, $name, $startedTime, $finishedTime, $deadline, $detail); 
+
+      $allUsers = userRead($db);
+      foreach($allUsers as $user){
+        createEventAttendance($db, $lastInsertEventId, (int)$user[0]);
+      }
+      
+
       header('Location: adminTop.php' );
       }else{
         $err_msg = "締め切り日を開始時刻より前にしてください。";
