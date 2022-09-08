@@ -1,0 +1,67 @@
+/*ベース*/
+.toggle {
+	display: none;
+}
+
+.Label,
+.content {
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	transform: translateZ(0);
+	transition: all 0.3s;
+}
+.content {		/*本文*/
+	height: 0;
+	margin-bottom:10px;
+	padding:0 20px;
+	overflow: hidden;
+}
+.toggle:checked + .Label + .content {	/*開閉時*/
+	height: auto;
+	padding:20px ;
+	transition: all .3s;
+}
+.toggle:checked + .Label::before {
+	transform: rotate(-45deg) !important;
+}
+
+
+
+/* jQueryのアコーディオン */
+.accordion-container {
+  cursor: pointer;
+}
+
+.accordion-container .accordion-title {
+  cursor: pointer;
+}
+
+.accordion-title:after {
+  content: "";
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.accordion-title.open:after {
+  -webkit-transform: rotate(-225deg);
+  transform: rotate(-225deg);
+}
+
+.accordion-content {
+  display: none;
+}
+
+/* CSS for CodePen */
+.accordion-container {
+  position: relative;
+  left: 77%;
+  bottom: 50px;
+  width: 70px;
+}
+
+.paging{
+  width: 60%;
+  margin: 0 auto;
+  display: flex ;
+  justify-content: space-around;
+}
