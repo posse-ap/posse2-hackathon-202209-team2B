@@ -180,12 +180,12 @@ function get_day_of_week($w)
                 };
               }
 
-?>
+              ?>
               </div>
               <p class="text-sm"><span class="text-xl"><?php echo $event['total_participants']; ?></span>人参加 ></p>
             </div>
           </form>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
       </div>
     </div>
   </main>
