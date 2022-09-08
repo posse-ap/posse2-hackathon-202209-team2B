@@ -17,7 +17,7 @@ if(!empty($_POST)) {
   $user = $login->fetch();
   if(password_verify($password, $user['password'])){
     $_SESSION['user_id'] = $user['id']; 
-    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/index.php");
+    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/index.php?page_id=1");
     exit();
   }else{
     $err_msg = "メールまたはパスワードが違います";
