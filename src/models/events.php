@@ -37,6 +37,8 @@ function eventCreate($db, $name, $start_at, $end_at, $deadline, $detail)
         //ここでエラーページに飛ばしたい
         //→その際にもどるボタンで、前いたページに遷移させる
     }
+    $id = $db -> lastInsertId();
+    return $id;
 }
 
 // 編集

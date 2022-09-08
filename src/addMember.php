@@ -1,6 +1,8 @@
 <?php
 require("dbconnect.php");
 require(realpath("models/users.php"));
+require(realpath("models/events.php"));
+require(realpath('models/event_attendance.php'));
 
 if($_POST){
   $email = $_POST['email'];
@@ -38,7 +40,12 @@ if ($_POST && empty($err_msg)) {
   $email = $_POST['email'];
   $password = $_POST['password'];
   $admin = $_POST['admin'];
-  userCreate($db, $name, $email, $password, $admin);
+  $lastInsertUserId = userCreate($db, $name, $email, $password, $admin); 
+
+      $allEvents = eventRead($db);
+      foreach($allEvents as $event){
+        createEventAttendance($db, (int)$event[0] , $lastInsertUserId);
+      }
   header('Location: adminTop.php');
   }else{
     $err_msg['password'] = "パスワードが一致していません";
