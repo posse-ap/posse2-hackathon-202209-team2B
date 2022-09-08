@@ -9,13 +9,13 @@ if (empty($_SESSION['user_id'])) {
   exit();
 }
 
-if($_GET['page_id'] >= 1){
+if ($_GET['page_id'] >= 1) {
   $page_id = $_GET['page_id'];
-}else{
+} else {
   $page_id = 1;
 }
 //何ページ目かわかる
-$condition = 10*($page_id - 1);
+$condition = 10 * ($page_id - 1);
 
 
 $status = $_GET["status"];
@@ -30,11 +30,11 @@ if (!$_GET["status"]) {
   $count = count($counter);
 
   //一ページに表示する記事の数をmax_viewに定数として定義
-define('max_view',10);
-$max_page = ceil($count/max_view);
+  define('max_view', 10);
+  $max_page = ceil($count / max_view);
 
 
-$max_page = ceil($count/max_view);
+  $max_page = ceil($count / max_view);
 } elseif ($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
   if ($_GET["status"] == 1) {
     $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
@@ -45,9 +45,8 @@ $max_page = ceil($count/max_view);
     $count = count($counter);
 
     //一ページに表示する記事の数をmax_viewに定数として定義
-  define('max_view',10);
-  $max_page = ceil($count/max_view);
-  
+    define('max_view', 10);
+    $max_page = ceil($count / max_view);
   } elseif ($_GET["status"] == 2) {
     $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
@@ -57,9 +56,8 @@ $max_page = ceil($count/max_view);
     $count = count($counter);
 
     //一ページに表示する記事の数をmax_viewに定数として定義
-  define('max_view',10);
-  $max_page = ceil($count/max_view);
-  
+    define('max_view', 10);
+    $max_page = ceil($count / max_view);
   } elseif ($_GET["status"] == 3) {
     $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
@@ -69,9 +67,8 @@ $max_page = ceil($count/max_view);
     $count = count($counter);
 
     //一ページに表示する記事の数をmax_viewに定数として定義
-  define('max_view',10);
-  $max_page = ceil($count/max_view);
-  
+    define('max_view', 10);
+    $max_page = ceil($count / max_view);
   };
 }
 // $stmt = $db->query("SELECT events.id
@@ -237,34 +234,34 @@ function get_day_of_week($w)
             </div>
           </form>
           <div id="accordion" class="accordion-container">
-                <h4 class="accordion-title js-accordion-title">
-                  <p class="text-sm"><span class="text-xl"><?php echo count($attendanceUserByEvent); ?></span>人参加 ></p>
-                </h4>
-                <div class="accordion-content">
-                <?php foreach ($attendanceUserByEvent as $attendanceUser) : ?>
-                  <p><?= $attendanceUser['name'] ?></p>
-                  <?php endforeach; ?>
-                </div>
+            <h4 class="accordion-title js-accordion-title">
+              <a class="text-sm"><span class="text-xl"><?php echo count($attendanceUserByEvent); ?></span>人参加 ></a>
+            </h4>
+            <ul class="accordion-content">
+              <?php foreach ($attendanceUserByEvent as $attendanceUser) : ?>
+                <li><?= $attendanceUser['name'] ?></li>
+              <?php endforeach; ?>
+            </ul>
           </div>
         <?php endforeach; ?>
         <div class="paging">
-        <?php if($status == 1 || $status == 2 || $status == 3){?>
-        <?php for($i = 1; $i <= $max_page; $i++){ ?>
-          <?php if($i == $page_id){ ?>
-            <a tabindex="-1"><?= $i ?></a>
-          <?php }else{ ?>
-            <a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "/index.php?page_id=$i&status=$status"?>"><?= $i ?></a>
-          <?php } ?> 
-        <?php } ?>
-        <?php } else {?>
-          <?php for($i = 1; $i <= $max_page; $i++){ ?>
-          <?php if($i == $page_id){ ?>
-            <a tabindex="-1"><?= $i ?></a>
-          <?php }else{ ?>
-            <a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "/index.php?page_id=$i"?>"><?= $i ?></a>
-          <?php } ?> 
-        <?php } ?>
-        <?php } ?>
+          <?php if ($status == 1 || $status == 2 || $status == 3) { ?>
+            <?php for ($i = 1; $i <= $max_page; $i++) { ?>
+              <?php if ($i == $page_id) { ?>
+                <a tabindex="-1"><?= $i ?></a>
+              <?php } else { ?>
+                <a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "/index.php?page_id=$i&status=$status" ?>"><?= $i ?></a>
+              <?php } ?>
+            <?php } ?>
+          <?php } else { ?>
+            <?php for ($i = 1; $i <= $max_page; $i++) { ?>
+              <?php if ($i == $page_id) { ?>
+                <a tabindex="-1"><?= $i ?></a>
+              <?php } else { ?>
+                <a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "/index.php?page_id=$i" ?>"><?= $i ?></a>
+              <?php } ?>
+            <?php } ?>
+          <?php } ?>
         </div>
       </div>
     </div>

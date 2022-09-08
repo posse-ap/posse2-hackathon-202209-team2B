@@ -38,8 +38,8 @@
 
 .accordion-title:after {
   content: "";
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg); 
+   transform: rotate(45deg);
 }
 
 .accordion-title.open:after {
@@ -53,10 +53,14 @@
 
 /* CSS for CodePen */
 .accordion-container {
-  position: relative;
-  left: 77%;
-  bottom: 50px;
-  width: 70px;
+  position: absolute;
+  right: 0%;
+  transform: translate(-50%,-150%);
+  text-align: right;
+}
+
+.accordion-container li{
+  list-style: none;
 }
 
 .paging{
