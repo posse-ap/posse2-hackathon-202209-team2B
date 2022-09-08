@@ -5,6 +5,17 @@ const overlay = document.querySelector('.modal-overlay')
 const body = document.querySelector('body')
 const modal = document.querySelector('.modal')
 const modalInnerHTML = document.getElementById('modalInner')
+const topAccordion = document.getElementById('topAccordion')
+
+
+jQuery(function ($ , e) {
+  $('.js-accordion-title').on('click', function () {
+    /*クリックでコンテンツを開閉*/
+    $(this).next().slideToggle(200);
+    /*矢印の向きを変更*/
+    $(this).toggleClass('open', 200);
+  });
+  });
 
 for (let i = 0; i < openModalClassList.length; i++) {
   openModalClassList[i].addEventListener('click', (e) => {
@@ -26,7 +37,8 @@ async function openModal(eventId) {
     const url = '/api/getModalInfo.php?eventId=' + eventId
     const res = await fetch(url)
     const event = await res.json()
-    console.log(event.eventStatus[0])
+    console.log(event.eventStatus[0]);
+    console.log(event.attendanceUser);
     let participation = event.eventStatus[0].participation;
     let nonparticipation = event.eventStatus[0].nonparticipation;
     let notsubmitted = event.eventStatus[0].notsubmitted;
@@ -43,12 +55,19 @@ async function openModal(eventId) {
       </p>
 
       <hr class="my-4">
-
-      <p class="text-sm"><span class="text-xl">${event.total_participants}</span>人参加 ></p>
+      <section class="accordion">
+      <input id="block-01" type="checkbox" class="toggle">
+      <label class="Label" for="block-01"><p class="text-sm"><span class="text-xl">${event.attendanceUser.length}</span>人参加 ></p></label>
+      <div class="content">
     `
+    event.attendanceUser.forEach(function(element, index, array){
+      modalHTML += `<p class="text-sm">` + element['name'] + `</p>`
+    });
+
     switch (0) {
       case 0:
         modalHTML += `
+        </div>
           <div class="text-center mt-6">
             <!--
             <p class="text-lg font-bold text-yellow-400">未回答</p>
@@ -147,15 +166,6 @@ async function nonparticipateEvent(eventId) {
   }
 }
 
-// let generations = [];
-// let objectGenerations = $('#jsGetVariable').data();
-
-// console.log(objectGenerations)
-// objectGenerations['name'].map(function(element) {
-//     const generation = Math.floor(element.generation)
-//     generations.push(generation);
-// });
-// generations = new Set(generations);
 
 
 

@@ -17,21 +17,20 @@ if (!$_GET["status"]) {
   $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at,events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE  events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
   $stmt->execute();
   $events = $stmt->fetchAll();
-} elseif($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
-  if($_GET["status"] == 1){
-        $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
-        $stmt->execute();
-        $events = $stmt->fetchAll();
-      }elseif($_GET["status"] == 2){
-        $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
-        $stmt->execute();
-        $events = $stmt->fetchAll();
-      }elseif($_GET["status"] == 3){
-        $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
-        $stmt->execute();
-        $events = $stmt->fetchAll();
-      };
-      
+} elseif ($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
+  if ($_GET["status"] == 1) {
+    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $stmt->execute();
+    $events = $stmt->fetchAll();
+  } elseif ($_GET["status"] == 2) {
+    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $stmt->execute();
+    $events = $stmt->fetchAll();
+  } elseif ($_GET["status"] == 3) {
+    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $stmt->execute();
+    $events = $stmt->fetchAll();
+  };
 }
 
 
@@ -50,6 +49,7 @@ function get_day_of_week($w)
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="top.css" rel="stylesheet">
   <title>Schedule | POSSE</title>
 </head>
 
@@ -82,8 +82,8 @@ function get_day_of_week($w)
             <a href="/?status=3" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">未回答</a>
   
             ';
-          } elseif ($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3){
-            if($_GET["status"] == 1){
+          } elseif ($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
+            if ($_GET["status"] == 1) {
               echo
               '
               <a href="/" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">全て</a>
@@ -91,7 +91,7 @@ function get_day_of_week($w)
               <a href="/?status=2" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">不参加</a>
               <a href="/?status=3" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">未回答</a>
               ';
-            }elseif($_GET["status"] == 2){
+            } elseif ($_GET["status"] == 2) {
               echo
               '
               <a href="/" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">全て</a>
@@ -99,7 +99,7 @@ function get_day_of_week($w)
               <a href="/?status=2" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-blue-600 text-white">不参加</a>
               <a href="/?status=3" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">未回答</a>
               ';
-            }elseif($_GET["status"] == 3){
+            } elseif ($_GET["status"] == 3) {
               echo
               '
               <a href="/" class="px-3 py-2 text-md font-bold mr-2 rounded-md shadow-md bg-white">全て</a>
@@ -123,9 +123,10 @@ function get_day_of_week($w)
           $start_date = strtotime($event['start_at']);
           $end_date = strtotime($event['end_at']);
           $day_of_week = get_day_of_week(date("w", $start_date));
+          $attendanceUserByEvent = getUserByAttendanceStatusByEvent($db, $event['eventId']);
           ?>
           <form class="modal-open bg-white mb-3 p-4 flex justify-between rounded-md shadow-md cursor-pointer" id="event-<?= $event['eventId']; ?>">
-          <input type="hidden" name="eventId" value="<?= $event['name'] ?>">
+            <input type="hidden" name="eventId" value="<?= $event['name'] ?>">
             <div>
               <h3 class="font-bold text-lg mb-2"><?php echo $event['name'] ?></h3>
               <p><?php echo date("Y年m月d日（${day_of_week}）", $start_date); ?></p>
@@ -135,57 +136,64 @@ function get_day_of_week($w)
             </div>
             <div class="flex flex-col justify-between text-right">
               <div>
-              <?php
-              if(!$_GET["status"] ){
-                if($event["notsubmitted"] == 1){
-                  echo
-                  '
+                <?php
+                if (!$_GET["status"]) {
+                  if ($event["notsubmitted"] == 1) {
+                    echo
+                    '
                   <p class="text-sm font-bold text-yellow-400">未回答</p>
                   <p class="text-xs text-yellow-400">期限 ';
-              ?>
-                  <?php echo date("m月d日", strtotime('-3 day', $end_date)) ;
-                  echo '</p>';
-                
-                }elseif($event["nonparticipation"] == 1){
-                  echo
-                  '
+                ?>
+                  <?php echo date("m月d日", strtotime('-3 day', $end_date));
+                    echo '</p>';
+                  } elseif ($event["nonparticipation"] == 1) {
+                    echo
+                    '
                   <p class="text-sm font-bold text-gray-300">不参加</p>
                   ';
-                }elseif($event["participation"] == 1){
-                  echo
-                  '
+                  } elseif ($event["participation"] == 1) {
+                    echo
+                    '
                   <p class="text-sm font-bold text-green-400">参加</p>
                   ';
-                };
-              }elseif($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3){
-                if($_GET["status"] == 3){
-                  echo
-                  '
+                  };
+                } elseif ($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
+                  if ($_GET["status"] == 3) {
+                    echo
+                    '
                   <p class="text-sm font-bold text-yellow-400">未回答</p>
                   <p class="text-xs text-yellow-400">期限 ';
-              ?>
-                  <?php echo date("m月d日",  $end_date) ;
-                  echo '</p>';
-                
-                }elseif($_GET["status"] == 2){
-                  echo
-                  '
+                  ?>
+                <?php echo date("m月d日",  $end_date);
+                    echo '</p>';
+                  } elseif ($_GET["status"] == 2) {
+                    echo
+                    '
                   <p class="text-sm font-bold text-gray-300">不参加</p>
                   ';
-                }elseif($_GET["status"] == 1){
-                  echo
-                  '
+                  } elseif ($_GET["status"] == 1) {
+                    echo
+                    '
                   <p class="text-sm font-bold text-green-400">参加</p>
                   ';
-                };
-              }
+                  };
+                }
 
-              ?>
+                ?>
               </div>
-              <p class="text-sm"><span class="text-xl"><?php echo $event['total_participants']; ?></span>人参加 ></p>
             </div>
           </form>
-            <?php endforeach; ?>
+          <div id="accordion" class="accordion-container">
+                <h4 class="accordion-title js-accordion-title">
+                  <p class="text-sm"><span class="text-xl"><?php echo count($attendanceUserByEvent); ?></span>人参加 ></p>
+                </h4>
+                <div class="accordion-content">
+                <?php foreach ($attendanceUserByEvent as $attendanceUser) : ?>
+                  <p><?= $attendanceUser['name'] ?></p>
+                  <?php endforeach; ?>
+                </div>
+          </div>
+        <?php endforeach; ?>
       </div>
     </div>
   </main>
@@ -206,9 +214,8 @@ function get_day_of_week($w)
       </div>
     </div>
   </div>
-
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="/js/main.js"></script>
 </body>
 
 </html>
-

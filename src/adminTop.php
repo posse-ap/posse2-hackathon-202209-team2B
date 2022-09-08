@@ -1,6 +1,8 @@
 <?php 
 session_start();
 
+unset($_SESSION['err_msg']);
+
 if (empty($_SESSION['admin_id'])) {
   header("Location: http://" . $_SERVER['HTTP_HOST'] . "/adminlogin.php");
   exit();
