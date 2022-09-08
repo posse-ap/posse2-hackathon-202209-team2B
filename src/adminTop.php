@@ -1,6 +1,8 @@
 <?php 
 session_start();
 
+unset($_SESSION['err_msg']);
+
 if (empty($_SESSION['admin_id'])) {
   header("Location: http://" . $_SERVER['HTTP_HOST'] . "/adminlogin.php");
   exit();
@@ -29,7 +31,7 @@ function get_day_of_week($w)
         <a class="text-sm leading-3"><?= date('H:i', strtotime($event['start_at'])) . '~' . date('H:i', strtotime($event['end_at'])) ?></a>
       </div>
       <div class="pt-3 ml-10 text-right align-middle text-blue-400"><a href="#" class=" text-sm">参加者一覧</a><br>
-        <a href="editEvent.php" class="text-sm">編集</a><br>
+        <a href="editEvent.php?id=<?=$event['id']?>" class="text-sm">編集</a><br>
         <a href="#" class="text-sm">削除</a>
       </div>
     </div>
