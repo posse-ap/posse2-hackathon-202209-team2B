@@ -19,6 +19,7 @@ $stmt = $db->query("SELECT events.id AS eventId, event_attendance.id, events.nam
                     ASC");
 $stmt->execute();
 $events = $stmt->fetchAll();
+echo ($event_day);
 
 foreach ( $events as $event){
 
@@ -40,8 +41,8 @@ foreach ( $events as $event){
     EOT;
     
     mb_send_mail($to, $subject, $event_body, $headers);
-    // echo "$to";
-    // echo "$subject";
-    // echo "$event_body";
-    // echo "$headers";
+    echo "$to";
+    echo "$subject";
+    echo "$event_body";
+    echo "$headers";
 }
