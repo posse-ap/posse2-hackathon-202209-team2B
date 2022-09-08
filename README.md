@@ -20,3 +20,9 @@ docker-compose up -d
 
 メール受信
 ブラウザで `http://localhost:8025/` にアクセスしてください、メールボックスが表示されます
+
+github連携
+ブラウザで `http://localhost/auth/login/github.php` にアクセスしてください、githubの認証画面に飛びます
+
+slack連携
+ブラウザで `http://localhost/slackParticipant.php` にアクセスしてください、slackに送られます
