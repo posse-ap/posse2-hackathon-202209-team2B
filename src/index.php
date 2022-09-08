@@ -9,27 +9,60 @@ if (empty($_SESSION['user_id'])) {
   exit();
 }
 
+if($_GET['page_id'] >= 1){
+  $page_id = $_GET['page_id'];
+}else{
+  $page_id = 1;
+}
+//何ページ目かわかる
+$condition = 10*($page_id - 1);
 
 $_GET["status"];
 $today = date("Y-m-d");
 $user_id = $_SESSION['user_id'];
 if (!$_GET["status"]) {
-  $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at,events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE  events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+  $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at,events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE  events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
   $stmt->execute();
   $events = $stmt->fetchAll();
+  $count = count($events);
+
+  //一ページに表示する記事の数をmax_viewに定数として定義
+define('max_view',10);
+$max_page = ceil($count/max_view);
+
+
+$max_page = ceil($count/max_view);
 } elseif ($_GET["status"] == 1 || $_GET["status"] == 2 || $_GET["status"] == 3) {
   if ($_GET["status"] == 1) {
-    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.participation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
     $events = $stmt->fetchAll();
+    $count = count($events);
+
+    //一ページに表示する記事の数をmax_viewに定数として定義
+  define('max_view',10);
+  $max_page = ceil($count/max_view);
+  
   } elseif ($_GET["status"] == 2) {
-    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.nonparticipation='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
     $events = $stmt->fetchAll();
+    $count = count($events);
+
+    //一ページに表示する記事の数をmax_viewに定数として定義
+  define('max_view',10);
+  $max_page = ceil($count/max_view);
+  
   } elseif ($_GET["status"] == 3) {
-    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC");
+    $stmt = $db->query("SELECT events.id as eventId, event_attendance.id, events.name, events.start_at, events.end_at,event_attendance.user_id,event_attendance.participation,event_attendance.nonparticipation,event_attendance.notsubmitted, count(event_attendance.id) AS total_participants  FROM event_attendance INNER JOIN events ON event_attendance.event_id=events.id WHERE event_attendance.notsubmitted='1' AND events.start_at >= '$today' AND event_attendance.user_id= '$user_id' GROUP BY  event_attendance.id  ORDER BY events.start_at ASC LIMIT $condition, 10");
     $stmt->execute();
     $events = $stmt->fetchAll();
+    $count = count($events);
+
+    //一ページに表示する記事の数をmax_viewに定数として定義
+  define('max_view',10);
+  $max_page = ceil($count/max_view);
+  
   };
 }
 
@@ -194,6 +227,15 @@ function get_day_of_week($w)
                 </div>
           </div>
         <?php endforeach; ?>
+        <div class="paging">
+        <?php for($i = 1; $i <= $max_page; $i++){ ?>
+          <?php if($i == $page_id){ ?>
+            <a tabindex="-1"><?= $i ?></a>
+          <?php }else{ ?>
+            <a href="<?= "http://" . $_SERVER['HTTP_HOST'] . "/index.php?page_id=$i"?>"><?= $i ?></a>
+          <?php } ?> 
+        <?php } ?>
+        </div>
       </div>
     </div>
   </main>
