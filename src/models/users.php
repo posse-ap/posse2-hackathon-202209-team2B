@@ -20,4 +20,15 @@ VALUES
     $stmt->bindValue(3, $password,PDO::PARAM_STR);
     $stmt->bindValue(4, $admin, PDO::PARAM_INT);
     $stmt->execute();
+    $id = $db -> lastInsertId();
+    return $id;
+}
+
+// 全読み込み
+function userRead($db)
+{
+    $stmt = $db->prepare("select * from users");
+    $stmt->execute();
+    $output = $stmt->fetchAll();
+    return $output;
 }
