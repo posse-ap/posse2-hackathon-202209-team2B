@@ -32,3 +32,12 @@ function userRead($db)
     $output = $stmt->fetchAll();
     return $output;
 }
+
+// githubのログイン認証
+function checkGithub($db, $condition)
+{
+    $stmt = $db->prepare("select * from users where github_account = '$condition'");
+    $stmt->execute();
+    $output = $stmt->fetchAll();
+    return $output;
+}
