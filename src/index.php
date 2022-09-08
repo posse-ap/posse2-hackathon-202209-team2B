@@ -172,7 +172,8 @@ function get_day_of_week($w)
       </div>
     </div>
   </div>
-
+      <!--ページネーション-->
+    
   <script src="/js/main.js"></script>
 </body>
 
