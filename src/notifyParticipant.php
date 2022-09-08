@@ -17,6 +17,8 @@ $stmt = $db->query("SELECT events.id AS eventId, event_attendance.id, events.nam
                     ASC");
 $stmt->execute();
 $events = $stmt->fetchAll();
+$title = "イベント前日です。参加者の皆さんは忘れないようにお願いします。";
 echo ($event_day);
+
 
 require('notifymail.php');
