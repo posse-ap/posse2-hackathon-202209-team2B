@@ -23,6 +23,7 @@ CREATE TABLE users
   name       VARCHAR(10)  NOT NULL,
   email      VARCHAR(255) NOT NULL,
   password   VARCHAR(255) NOT NULL,
+  github_account   VARCHAR(255),
   admin      INT          NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -139,7 +140,7 @@ VALUES
 INSERT INTO users SET name='つよちゃん', email='test@posse-ap.com', password= '$2y$10$ozxkhAEW8yeC2hvru.8zj.YDnu8Wmmvr6ACSi8kheGyCyzsWP81Zm',admin=0;
 INSERT INTO users SET name='れい', email='test2@posse-ap.com', password='$2y$10$ozxkhAEW8yeC2hvru.8zj.YDnu8Wmmvr6ACSi8kheGyCyzsWP81Zm',admin=1;
 INSERT INTO users SET name='かずき', email='test3@posse-ap.com', password='$2y$10$ozxkhAEW8yeC2hvru.8zj.YDnu8Wmmvr6ACSi8kheGyCyzsWP81Zm',admin=0;
-INSERT INTO users SET name='なおき', email='test4@posse-ap.com', password='$2y$10$ozxkhAEW8yeC2hvru.8zj.YDnu8Wmmvr6ACSi8kheGyCyzsWP81Zm',admin=1;
+INSERT INTO users SET name='なおき', email='test4@posse-ap.com', password='$2y$10$ozxkhAEW8yeC2hvru.8zj.YDnu8Wmmvr6ACSi8kheGyCyzsWP81Zm', github_account = 'nn-nissy1010' ,admin=1;
 
 INSERT INTO event_attendance SET event_id=1, user_id=1, participation=0, nonparticipation=0, notsubmitted=1;
 INSERT INTO event_attendance SET event_id=1, user_id=2, participation=0, nonparticipation=1, notsubmitted=0;

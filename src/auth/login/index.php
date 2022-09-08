@@ -64,6 +64,7 @@ if(!empty($_POST)) {
       <div class="text-center text-xs text-gray-400 mt-6">
         <a href="pasReset.php">パスワードを忘れた方はこちら</a>
       </div>
+      <a href="https://github.com/login/oauth/authorize?client_id=30693a31496631f37dce">githubでSign In</a>
     </div>
   </main>
 </body>
